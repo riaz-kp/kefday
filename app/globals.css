@@ -17,8 +17,8 @@
   --line-light: rgba(243, 241, 236, .16);
   --cream-soft: rgba(243, 241, 236, .66);
 
-  --serif: "Instrument Serif", "Times New Roman", serif;
-  --sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: var(--font-serif), "Times New Roman", serif;
+  --sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --gutter: clamp(16px, 4vw, 56px);
   --max: 1360px;
@@ -74,9 +74,13 @@ em { font-style: italic; }
   display: block;
   aspect-ratio: 598 / 118;
   background-color: currentColor;
-  -webkit-mask: url("../kefday-wordmark.svg") center / contain no-repeat;
-          mask: url("../kefday-wordmark.svg") center / contain no-repeat;
+  -webkit-mask: url("/kefday-wordmark.svg") center / contain no-repeat;
+          mask: url("/kefday-wordmark.svg") center / contain no-repeat;
 }
+
+/* parallax layer: oversized so the image can drift without showing edges */
+.plx { position: absolute; inset: -6% 0; will-change: transform; }
+.plx img { object-fit: cover; }
 
 /* ---------- type ---------- */
 .display {
@@ -239,13 +243,13 @@ body.menu-open { overflow: hidden; }
 
 .hero__media { position: relative; justify-self: end; }
 .arch {
+  position: relative;
   height: clamp(300px, 46vh, 540px);
   aspect-ratio: 4 / 5;
   border-radius: 999px 999px 18px 18px;
   overflow: hidden;
   background: var(--espresso-3);
 }
-.arch img { width: 100%; height: 112%; object-fit: cover; margin-top: -6%; }
 
 .badge {
   position: absolute; left: -64px; bottom: 36px;
@@ -310,7 +314,6 @@ body.menu-open { overflow: hidden; }
   align-items: start;
 }
 .frame { position: relative; overflow: hidden; border-radius: 14px; background: var(--latte); }
-.frame img { width: 100%; height: 112%; object-fit: cover; }
 .frame--tall { aspect-ratio: 4 / 5; }
 .frame--wide { aspect-ratio: 4 / 3; margin-top: clamp(48px, 10vw, 160px); }
 .frame figcaption {
@@ -345,7 +348,7 @@ body.menu-open { overflow: hidden; }
 .menu__visual { position: sticky; top: 112px; }
 .menu__frame { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 16px 16px; overflow: hidden; background: var(--espresso-3); }
 .menu__frame img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-fit: cover;
   opacity: 0; transform: scale(1.06);
   transition: opacity .8s var(--ease), transform 1.4s var(--ease-out);
 }
@@ -392,8 +395,8 @@ body.menu-open { overflow: hidden; }
 /* ---------- experiences ---------- */
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 4vw, 64px) clamp(20px, 4vw, 64px); }
 .card--offset { margin-top: clamp(0px, 10vw, 140px); }
-.card figure { overflow: hidden; border-radius: 14px; aspect-ratio: 5 / 4; background: var(--latte); }
-.card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+.card figure { position: relative; overflow: hidden; border-radius: 14px; aspect-ratio: 5 / 4; background: var(--latte); }
+.card img { object-fit: cover; transition: transform 1.2s var(--ease-out); }
 .card:hover img { transform: scale(1.05); }
 .card__body { padding-top: 26px; display: grid; grid-template-columns: 56px 1fr; column-gap: 8px; }
 .card__body > :not(.card__num) { grid-column: 2; }
@@ -428,7 +431,7 @@ body.menu-open { overflow: hidden; }
   gap: clamp(10px, 1.6vw, 20px);
 }
 .mosaic__item { position: relative; overflow: hidden; border-radius: 12px; background: var(--latte); }
-.mosaic__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out), filter .6s; }
+.mosaic__item img { object-fit: cover; transition: transform 1.2s var(--ease-out), filter .6s; }
 .mosaic__item::after {
   content: "View on Instagram ↗"; position: absolute; inset: auto 16px 14px; color: var(--cream);
   font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
