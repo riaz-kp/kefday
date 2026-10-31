@@ -7,6 +7,7 @@ import { navLinks, site } from '@/lib/site';
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
   const lastY = useRef(0);
 
@@ -24,6 +25,18 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // the small wordmark takes over once the big hero wordmark scrolls away
+  useEffect(() => {
+    const heroMark = document.querySelector('.wordmark--hero');
+    if (!heroMark) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { rootMargin: '-72px 0px 0px 0px' },
+    );
+    io.observe(heroMark);
+    return () => io.disconnect();
+  }, []);
+
   useEffect(() => {
     document.body.classList.toggle('menu-open', open);
     if (!open) return;
@@ -34,15 +47,28 @@ export default function Nav() {
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
-  const navClass = ['nav', scrolled && 'is-scrolled', hidden && !open && 'is-hidden'].filter(Boolean).join(' ');
+  const navClass = [
+    'nav',
+    scrolled && 'is-scrolled',
+    (pastHero || open) && 'is-past',
+    hidden && !open && 'is-hidden',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <>
       <nav className={navClass} aria-label="Main">
         <div className="nav__inner container">
-          <a className="nav__brand" href="#top" aria-label="Kefday — home">
-            <Wordmark />
-          </a>
+          <div className="nav__left">
+            <a className="nav__brand" href="#top" aria-label="Kefday — home">
+              <Wordmark />
+            </a>
+            <span className="status">
+              <span className="status__dot" aria-hidden="true" />
+              Open now · 24/7
+            </span>
+          </div>
           <ul className="nav__links">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -51,10 +77,6 @@ export default function Nav() {
             ))}
           </ul>
           <div className="nav__actions">
-            <span className="status">
-              <span className="status__dot" aria-hidden="true" />
-              Open now · 24/7
-            </span>
             <a className="btn btn--light btn--sm" href={site.links.reserve} target="_blank" rel="noopener">
               Reserve
             </a>
@@ -90,6 +112,9 @@ export default function Nav() {
         <a className="btn btn--light" href={site.links.whatsapp} target="_blank" rel="noopener">
           Reserve on WhatsApp
         </a>
+        <p className="mobile-menu__meta">
+          <span className="status__dot" aria-hidden="true" /> Open 24/7 · {site.address.street}, {site.address.locality}
+        </p>
       </div>
     </>
   );

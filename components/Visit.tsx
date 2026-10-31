@@ -1,3 +1,4 @@
+import Lines from './Lines';
 import { delay, site } from '@/lib/site';
 
 export default function Visit() {
@@ -9,10 +10,8 @@ export default function Visit() {
           <p className="label label--light" data-reveal>
             <span>05</span> Visit us
           </p>
-          <h2 className="display" data-reveal>
-            Come as you are.
-            <br />
-            <em>Stay a while.</em>
+          <h2 className="display" data-reveal="lines">
+            <Lines lines={['Come as you are.', <em key="em">Stay a while.</em>]} />
           </h2>
 
           <div className="visit__blocks">
@@ -64,7 +63,7 @@ export default function Visit() {
           </div>
         </div>
 
-        <div className="visit__map" data-reveal style={delay(0.1)}>
+        <div className="visit__map" data-reveal="mask" style={delay(0.1)}>
           <iframe
             title="Map showing Kefday Café in Areekode"
             src={links.mapEmbed}

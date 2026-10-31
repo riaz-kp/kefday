@@ -36,8 +36,8 @@ export const navLinks = [
 ];
 
 /** Stock placeholder photos — replace with Kefday's own photography in /public. */
-export const unsplash = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=1600`;
+export const unsplash = (id: string, width = 1600) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=${width}`;
 
 /** Stagger delay for scroll reveals. */
 export const delay = (seconds: number) => ({ '--d': `${seconds}s` }) as CSSProperties;

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Lines from './Lines';
 import { delay, site, unsplash } from '@/lib/site';
 
 const experiences = [
@@ -39,8 +40,8 @@ export default function Experiences() {
             <p className="label" data-reveal>
               <span>03</span> More than coffee
             </p>
-            <h2 className="display" data-reveal>
-              Moments worth <em>staying</em> for.
+            <h2 className="display" data-reveal="lines">
+              <Lines lines={['Moments worth', <><em>staying</em> for.</>]} />
             </h2>
           </div>
           <p className="section-head__aside" data-reveal style={delay(0.1)}>
@@ -50,32 +51,32 @@ export default function Experiences() {
         </div>
 
         <div className="cards">
-          {experiences.map((exp, i) => (
-            <article
-              key={exp.title}
-              className={i % 2 ? 'card card--offset' : 'card'}
-              data-reveal
-              style={i % 2 ? delay(0.1) : undefined}
-            >
-              <figure>
-                <Image src={exp.image.src} alt={exp.image.alt} fill sizes="(max-width: 640px) 100vw, 50vw" />
-              </figure>
-              <div className="card__body">
-                <span className="card__num">{exp.num}</span>
-                <h3>{exp.title}</h3>
-                <p>{exp.body}</p>
-                {exp.link && (
-                  <a
-                    className="link"
-                    href={exp.link.href}
-                    {...(exp.link.external ? { target: '_blank', rel: 'noopener' } : {})}
-                  >
-                    {exp.link.label} <span aria-hidden="true">{exp.link.arrow}</span>
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
+          {experiences.map((exp, i) => {
+            const stagger = delay(i % 2 ? 0.12 : 0);
+            return (
+              <article key={exp.title} className={i % 2 ? 'card card--offset' : 'card'}>
+                <figure data-reveal="mask" style={stagger}>
+                  <div className="zoom">
+                    <Image src={exp.image.src} alt={exp.image.alt} fill sizes="(max-width: 640px) 100vw, 50vw" />
+                  </div>
+                </figure>
+                <div className="card__body" data-reveal style={delay(i % 2 ? 0.27 : 0.15)}>
+                  <span className="card__num">{exp.num}</span>
+                  <h3>{exp.title}</h3>
+                  <p>{exp.body}</p>
+                  {exp.link && (
+                    <a
+                      className="link"
+                      href={exp.link.href}
+                      {...(exp.link.external ? { target: '_blank', rel: 'noopener' } : {})}
+                    >
+                      {exp.link.label} <span aria-hidden="true">{exp.link.arrow}</span>
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

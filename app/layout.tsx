@@ -1,21 +1,14 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Serif, Poppins } from 'next/font/google';
+import { Geist } from 'next/font/google';
 import Script from 'next/script';
+import { WordmarkDefs } from '@/components/Wordmark';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const serif = Instrument_Serif({
+const geist = Geist({
   subsets: ['latin'],
-  weight: '400',
   style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const sans = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-sans',
+  variable: '--font-geist',
   display: 'swap',
 });
 
@@ -38,12 +31,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={geist.variable} suppressHydrationWarning>
       <body>
         {/* Lets CSS hide scroll-reveal elements only when JS will reveal them */}
         <Script id="js-flag" strategy="beforeInteractive">
           {`document.documentElement.classList.add('js')`}
         </Script>
+        <WordmarkDefs />
         {children}
       </body>
     </html>

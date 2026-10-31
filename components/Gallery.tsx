@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Lines from './Lines';
 import { delay, site, unsplash } from '@/lib/site';
 
 // Replace these with photos from @kefday_cafe
@@ -19,8 +20,8 @@ export default function Gallery() {
             <p className="label" data-reveal>
               <span>04</span> Gallery
             </p>
-            <h2 className="display" data-reveal>
-              Follow the <em>good days.</em>
+            <h2 className="display" data-reveal="lines">
+              <Lines lines={[<>Follow the <em>good days.</em></>]} />
             </h2>
           </div>
           <a className="btn btn--dark" href={site.links.instagram} target="_blank" rel="noopener" data-reveal>
@@ -36,10 +37,12 @@ export default function Gallery() {
               href={site.links.instagram}
               target="_blank"
               rel="noopener"
-              data-reveal
-              style={delay(i * 0.05)}
+              data-reveal="mask"
+              style={delay(i * 0.08)}
             >
-              <Image src={unsplash(photo.id)} alt={photo.alt} fill sizes={photo.sizes} />
+              <span className="zoom">
+                <Image src={unsplash(photo.id)} alt={photo.alt} fill sizes={photo.sizes} />
+              </span>
             </a>
           ))}
         </div>

@@ -39,6 +39,7 @@ export default function Home() {
       <a className="skip" href="#main">
         Skip to content
       </a>
+      <div className="progress" aria-hidden="true" />
       <Nav />
       <Hero />
       <main id="main">

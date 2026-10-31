@@ -21,8 +21,12 @@ const moods: [from: number, to: number, mood: string][] = [
 function read() {
   const now = new Date();
   const hour = parseInt(hourFmt.format(now), 10) % 24;
+  const parts = timeFmt.formatToParts(now);
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === type)?.value ?? '';
   return {
-    time: timeFmt.format(now).replace(/\s?(am|pm)/i, (m) => m.toUpperCase()),
+    hours: part('hour'),
+    minutes: part('minute'),
+    period: part('dayPeriod').toUpperCase(),
     mood: moods.find(([from, to]) => hour >= from && hour < to)?.[2],
   };
 }
@@ -41,7 +45,18 @@ export default function LiveClock() {
     <section className="clock section section--dark" aria-label="Opening hours">
       <div className="container clock__inner" data-reveal>
         <p className="label label--light">Right now in Areekode</p>
-        <p className="clock__time">{now?.time ?? '—'}</p>
+        <p className="clock__time">
+          {now ? (
+            <>
+              {now.hours}
+              <span className="clock__colon">:</span>
+              {now.minutes}
+              <span className="clock__period">{now.period}</span>
+            </>
+          ) : (
+            '—'
+          )}
+        </p>
         <p className="clock__line">
           {now?.mood ?? 'Whenever you’re reading this'} — <em>we’re open.</em>
         </p>

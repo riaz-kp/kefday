@@ -1,3 +1,4 @@
+import Lines from './Lines';
 import Wordmark from './Wordmark';
 import CurrentYear from './CurrentYear';
 import { site } from '@/lib/site';
@@ -14,10 +15,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__top">
-          <p className="footer__cta">
-            A little café,
-            <br />
-            <em>a lot of happiness.</em>
+          <p className="footer__cta" data-reveal="lines">
+            <Lines lines={['A little café,', <em key="em">a lot of happiness.</em>]} />
           </p>
           <nav className="footer__links" aria-label="Social">
             {social.map((s) => (
@@ -27,7 +26,7 @@ export default function Footer() {
             ))}
           </nav>
         </div>
-        <Wordmark className="wordmark--footer" />
+        <Wordmark className="wordmark--footer" animate="reveal" />
         <div className="footer__bottom">
           <p>
             © <CurrentYear /> {site.name}, {site.address.locality}
